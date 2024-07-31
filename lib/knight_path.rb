@@ -64,24 +64,20 @@ class KnightPath
     queue = BFSQueue.new
     queue.enqueue(start_vertex)
 
-    each(adj_list) do |row, col|
-      @bfs_result[row] = [] unless bfs_result[row]
-      @bfs_result[row][col] = [] unless bfs_result[row][col]
-      @bfs_result[row][col] = Node.new
-    end
-
-    @bfs_result[start_vertex[0]][start_vertex[1]].distance = 0
+    init_search_result
+    search_result(*start_vertex).distance = 0
 
     until queue.empty?
       parent = queue.dequeue
-      adj_list[parent[0]][parent[1]].each do |vertex|
-        bfs_info = bfs_result[vertex[0]][vertex[1]]
+      adj_list(*parent).each do |vertex|
+        bfs_info = search_result(*vertex)
         next unless bfs_info.distance.nil?
 
         bfs_info.predecessor = parent
-        bfs_info.distance = bfs_result[parent[0]][parent[1]].distance + 1
+        bfs_info.distance = search_result(*parent).distance + 1
         queue.enqueue(vertex)
         p bfs_info
+        p "vertex: [#{vertex[0]}, #{vertex[1]}]"
         puts "queue: #{queue.queue}"
       end
     end
