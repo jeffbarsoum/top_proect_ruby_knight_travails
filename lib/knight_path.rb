@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'queue'
+require_relative 'bfs_queue'
 require_relative 'node'
 
 # A class for the path of a Knight on a chess board
