@@ -81,12 +81,45 @@ class KnightPath
         puts "queue: #{queue.queue}"
       end
     end
-    bfs_result[end_vertex[0]][end_vertex[1]]
+    search_result(*end_vertex)
+  end
+
+  def dfs(start_vertex, end_vertex)
+    init_search_result
+    search_result(*start_vertex).time_discovered = 0
+    search_result(*start_vertex).distance = 0
+
+    adj_list(*start_vertex).each do |vertex|
+      dfs_visit_vertex(vertex, start_vertex) if search_result(*vertex).time_discovered.nil?
+    end
+    search_result(*end_vertex)
+  end
+
+  def dfs_visit_vertex(vertex, start_vertex, time = 0, dfs_info = nil)
+    return false if vertex == start_vertex
+
+    dfs_info = search_result(*vertex)
+    dfs_info.predecessor = vertex
+    pred = search_result(*vertex)
+    dfs_info.distance = pred.distance + 1
+    dfs_info.time_discovered = time
+    adj_list(*vertex).each do |adj_vertex|
+      next unless dfs_info.time_discovered.nil? && dfs_info.predecessor.nil?
+
+      dfs_visit_vertex(adj_vertex, start_vertex, time, dfs_info)
+      time += 1
+      dfs_info.time_finished = time
+      p dfs_info
+      p "vertex: [#{adj_vertex[0]}, #{adj_vertex[1]}]"
+      p dfs_info.predecessor
+    end
   end
 end
 
 knight = KnightPath.new
 
-bfs_search = knight.bfs([4, 4], [7, 4])
-
+bfs_search = knight.bfs([0, 0], [7, 4])
 p bfs_search
+
+dfs_search = knight.dfs([0, 0], [7, 4])
+puts dfs_search
