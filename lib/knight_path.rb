@@ -44,6 +44,22 @@ class KnightPath
     end
   end
 
+  def init_search_result
+    each(@adj_list) do |row, col|
+      @search_result[row] = [] unless @search_result[row]
+      # @search_result[row][col] = [] unless search_result[row][col]
+      @search_result[row][col] = Node.new
+    end
+  end
+
+  def adj_list(row, col)
+    @adj_list[row][col]
+  end
+
+  def search_result(row, col)
+    @search_result[row][col]
+  end
+
   def bfs(start_vertex, end_vertex)
     queue = BFSQueue.new
     queue.enqueue(start_vertex)
