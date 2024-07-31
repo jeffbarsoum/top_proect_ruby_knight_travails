@@ -6,15 +6,15 @@ require_relative 'node'
 # A class for the path of a Knight on a chess board
 class KnightPath
   BOARD_SIZE = 8
-  attr_accessor :adj_list, :bfs_result
+  # attr_accessor :adj_list, :search_result
 
   def initialize
-    self.adj_list = []
-    self.bfs_result = []
+    @adj_list = []
+    @search_result = []
     BOARD_SIZE.times do |row|
-      @adj_list[row] = [] unless adj_list[row].is_a? Array
+      @adj_list[row] = [] unless @adj_list[row].is_a? Array
       BOARD_SIZE.times do |col|
-        @bfs_result[row][col] = Node.new unless adj_list[row].is_a? Array
+        @search_result[row][col] = Node.new unless @adj_list[row].is_a? Array
         @adj_list[row][col] =
           [
             knight_pos([row, col], 2, 1),
